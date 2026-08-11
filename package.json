@@ -1,0 +1,28 @@
+{
+  "name": "acmescript",
+  "version": "0.1.0",
+  "description": "Helpers JS façon Elixir pour hooks LiveView et templates .heex",
+  "license": "MIT",
+  "type": "module",
+  "main": "acmescript.js",
+  "exports": {
+    ".": "./acmescript.js"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build": "esbuild acmescript.js --bundle --minify --format=esm --outfile=dist/acmescript.min.js"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.6",
+    "jsdom": "^25.0.1",
+    "esbuild": "^0.25.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"],
+    "overrides": {
+      "vite": ">=6.4.3",
+      "esbuild": ">=0.25.0"
+    }
+  }
+}
