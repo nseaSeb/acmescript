@@ -1,5 +1,7 @@
 # AcmeScript
 
+[![CI](https://github.com/nseaSeb/acmescript/actions/workflows/ci.yml/badge.svg)](https://github.com/nseaSeb/acmescript/actions/workflows/ci.yml)
+
 Client-side JavaScript for Elixir/Phoenix projects. Brings helpers close to Elixir
 idioms (`pipe`, `ok/error`, `match`, `with`, `Enum`, immutable access on nested maps)
 to simplify writing LiveView hooks and `.heex` templates.
