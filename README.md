@@ -12,7 +12,7 @@ pnpm add @nseaprotector/acme-script
 ```
 
 ```js
-import { pipe, ok, error, match, H, J, find, show, hide,
+import { pipe, ok, error, match, cond, unless, inspect, H, J, find, show, hide,
          createHook, createLiveComponent, Enum, getIn, putIn, updateIn,
          PubSub, withDo } from "./acmescript.js";
 ```
@@ -52,6 +52,33 @@ match(result, {
   ok: (data) => console.log("found", data),
   error: (err) => console.error(err)
 });
+```
+
+### `cond(pairs)`
+Evaluates `[test, resultOrFn]` pairs in order, `cond do` block-style. `resultOrFn` can
+be a plain value or a zero-arg function (called lazily, only for the matching branch).
+
+```js
+cond([
+  [score > 90, "A"],
+  [score > 70, () => computeGrade(score)],
+  [true, "F"]
+]);
+```
+
+### `unless(test, branch)`
+Runs `branch` when `test` is falsy, the inverse of `if`.
+
+```js
+unless(user.isActive, () => deactivate(user));
+```
+
+### `inspect(label)`
+`IO.inspect`-style: logs the value (with an optional label) and passes it through
+unchanged. Meant to be dropped into a `pipe` chain for debugging.
+
+```js
+pipe(input, inspect("before"), transform, inspect("after"));
 ```
 
 ### `` H`...` `` — HTML sigil
@@ -115,7 +142,10 @@ customElements.define("acme-counter", createLiveComponent({
 
 ### `Enum`
 List transformation pipeline, Elixir `Enum`-style. Each function returns a
-`(list) => list` transformer, to compose with `pipe`.
+`(list) => list` (or `(list) => value`) transformer, to compose with `pipe`.
+
+`map`, `filter`, `reject`, `reduce`, `take`, `chunkEvery`, `uniq`, `sort`, `each`,
+`any`, `all`, `count`, `find`, `groupBy`, `sum`.
 
 ```js
 pipe(
@@ -125,6 +155,9 @@ pipe(
   Enum.uniq(),
   Enum.take(10)
 );
+
+Enum.groupBy((u) => u.role)(users); // { admin: [...], user: [...] }
+Enum.count((u) => u.active)(users); // 3
 ```
 
 ### `getIn(obj, path, default)` / `putIn(obj, path, val)` / `updateIn(obj, path, fn)`

@@ -10,5 +10,16 @@ export const Enum = {
     return res;
   },
   uniq: () => (list) => [...new Set(list)],
-  sort: (sorter) => (list) => [...list].sort(sorter)
+  sort: (sorter) => (list) => [...list].sort(sorter),
+  each: (fn) => (list) => (list.forEach(fn), list),
+  any: (predicate) => (list) => list.some(predicate),
+  all: (predicate) => (list) => list.every(predicate),
+  count: (predicate) => (list) => predicate ? list.filter(predicate).length : list.length,
+  find: (predicate, defaultVal = null) => (list) => list.find(predicate) ?? defaultVal,
+  groupBy: (keyFn) => (list) => list.reduce((acc, item) => {
+    const key = keyFn(item);
+    (acc[key] ??= []).push(item);
+    return acc;
+  }, {}),
+  sum: () => (list) => list.reduce((acc, x) => acc + x, 0)
 };

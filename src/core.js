@@ -10,3 +10,20 @@ export const match = (result, clauses = {}) => {
   if (clauses._) return clauses._(result);
   return result;
 };
+
+// cond([[test, resultOrFn], ...]): evaluates tests in order, `cond do`-style
+export const cond = (pairs) => {
+  for (const [test, branch] of pairs) {
+    if (test) return typeof branch === "function" ? branch() : branch;
+  }
+  return undefined;
+};
+
+export const unless = (test, branch) =>
+  !test ? (typeof branch === "function" ? branch() : branch) : undefined;
+
+// `|> IO.inspect(label: "x")`-style: logs and passes the value through unchanged, pipe-friendly
+export const inspect = (label = "") => (value) => {
+  console.log(...(label ? [`${label}:`, value] : [value]));
+  return value;
+};

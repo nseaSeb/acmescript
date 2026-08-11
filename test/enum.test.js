@@ -36,4 +36,48 @@ describe("Enum", () => {
     expect(sorted).toEqual([1, 2, 3]);
     expect(list).toEqual([3, 1, 2]);
   });
+
+  it("each runs a side effect on every item and returns the list", () => {
+    const seen = [];
+    const result = Enum.each((x) => seen.push(x))([1, 2, 3]);
+    expect(seen).toEqual([1, 2, 3]);
+    expect(result).toEqual([1, 2, 3]);
+  });
+
+  it("any", () => {
+    expect(Enum.any((x) => x > 2)([1, 2, 3])).toBe(true);
+    expect(Enum.any((x) => x > 5)([1, 2, 3])).toBe(false);
+  });
+
+  it("all", () => {
+    expect(Enum.all((x) => x > 0)([1, 2, 3])).toBe(true);
+    expect(Enum.all((x) => x > 1)([1, 2, 3])).toBe(false);
+  });
+
+  it("count without predicate returns the length", () => {
+    expect(Enum.count()([1, 2, 3])).toBe(3);
+  });
+
+  it("count with predicate counts matches", () => {
+    expect(Enum.count((x) => x % 2 === 0)([1, 2, 3, 4])).toBe(2);
+  });
+
+  it("find returns the first match or the default", () => {
+    expect(Enum.find((x) => x > 1)([1, 2, 3])).toBe(2);
+    expect(Enum.find((x) => x > 10, "none")([1, 2, 3])).toBe("none");
+    expect(Enum.find((x) => x > 10)([1, 2, 3])).toBe(null);
+  });
+
+  it("groupBy buckets items by key", () => {
+    const users = [{ role: "admin", name: "Ada" }, { role: "user", name: "Alan" }, { role: "admin", name: "Grace" }];
+    expect(Enum.groupBy((u) => u.role)(users)).toEqual({
+      admin: [{ role: "admin", name: "Ada" }, { role: "admin", name: "Grace" }],
+      user: [{ role: "user", name: "Alan" }]
+    });
+  });
+
+  it("sum", () => {
+    expect(Enum.sum()([1, 2, 3])).toBe(6);
+    expect(Enum.sum()([])).toBe(0);
+  });
 });

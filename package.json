@@ -1,6 +1,6 @@
 {
   "name": "@nseaprotector/acme-script",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Elixir-flavored JS helpers for LiveView hooks and .heex templates",
   "license": "MIT",
   "type": "module",

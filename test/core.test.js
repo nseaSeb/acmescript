@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { pipe, ok, error, match } from "../src/core.js";
+import { describe, it, expect, vi } from "vitest";
+import { pipe, ok, error, match, cond, unless, inspect } from "../src/core.js";
 
 describe("pipe", () => {
   it("chains functions in order", () => {
@@ -53,5 +53,62 @@ describe("match", () => {
   it("returns the raw result if no clause matches", () => {
     const r = ok(1);
     expect(match(r, {})).toBe(r);
+  });
+});
+
+describe("cond", () => {
+  it("returns the branch of the first truthy test", () => {
+    expect(cond([[false, "a"], [true, "b"], [true, "c"]])).toBe("b");
+  });
+
+  it("calls the branch if it's a function", () => {
+    expect(cond([[true, () => "computed"]])).toBe("computed");
+  });
+
+  it("returns undefined if no test matches", () => {
+    expect(cond([[false, "a"], [false, "b"]])).toBe(undefined);
+  });
+
+  it("doesn't call branches past the first match", () => {
+    const spy = vi.fn();
+    cond([[true, "first"], [true, spy]]);
+    expect(spy).not.toHaveBeenCalled();
+  });
+});
+
+describe("unless", () => {
+  it("runs the branch when the test is falsy", () => {
+    expect(unless(false, () => "ran")).toBe("ran");
+  });
+
+  it("does nothing when the test is truthy", () => {
+    expect(unless(true, () => "ran")).toBe(undefined);
+  });
+
+  it("accepts a plain value as the branch", () => {
+    expect(unless(false, "value")).toBe("value");
+  });
+});
+
+describe("inspect", () => {
+  it("logs the value with a label and returns it unchanged", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const result = inspect("step")(42);
+    expect(result).toBe(42);
+    expect(logSpy).toHaveBeenCalledWith("step:", 42);
+    logSpy.mockRestore();
+  });
+
+  it("logs just the value without a label", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    inspect()(42);
+    expect(logSpy).toHaveBeenCalledWith(42);
+    logSpy.mockRestore();
+  });
+
+  it("is pipe-friendly", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    expect(pipe(5, inspect(), (x) => x + 1)).toBe(6);
+    logSpy.mockRestore();
   });
 });
