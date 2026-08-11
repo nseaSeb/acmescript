@@ -1,5 +1,5 @@
-// Live component : panier autonome, hydraté depuis phx-state
-// heex :
+// Live component: standalone cart, hydrated from phx-state
+// heex:
 //   <acme-cart phx-state={Jason.encode!(%{items: @items})}></acme-cart>
 import { createLiveComponent, H } from "../acmescript.js";
 

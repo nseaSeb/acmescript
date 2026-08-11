@@ -1,5 +1,5 @@
-// Hook LiveView : compteur avec transition + rendu via sigil HTML
-// heex :
+// LiveView hook: counter with transition + rendering via the HTML sigil
+// heex:
 //   <div id="counter" phx-hook="Counter" phx-update="ignore"></div>
 import { createHook, H, find, show } from "../acmescript.js";
 

@@ -6,30 +6,30 @@ beforeEach(() => {
 });
 
 describe("find", () => {
-  it("retourne error si l'élément n'existe pas", () => {
+  it("returns error when the element doesn't exist", () => {
     const r = find("#missing");
     expect(r.ok).toBe(false);
     expect(r.error).toMatch(/Element not found/);
   });
 
-  it("accepte un élément directement", () => {
+  it("accepts an element directly", () => {
     const el = document.getElementById("box");
     expect(find(el).el).toBe(el);
   });
 
-  it("addClass/removeClass sont chainables", () => {
+  it("addClass/removeClass are chainable", () => {
     find("#box").addClass("b", "c").removeClass("a");
     const el = document.getElementById("box");
     expect(el.className).toBe("b c");
   });
 
-  it("attr lit et écrit", () => {
+  it("attr reads and writes", () => {
     const wrapped = find("#box");
     wrapped.attr("data-x", "1");
     expect(wrapped.attr("data-x")).toBe("1");
   });
 
-  it("on attache un listener", () => {
+  it("on attaches a listener", () => {
     let called = false;
     find("#box").on("click", () => (called = true));
     document.getElementById("box").click();

@@ -6,7 +6,7 @@ export const find = (selector, parent = document) => {
 
   const wrapper = Object.assign(ok(el), {
     el,
-    // Méthodes fluides intégrées : chaque appel retourne le wrapper, pas `el`
+    // Fluent methods: each call returns the wrapper, not `el`
     attr: (name, val) => val !== undefined ? (el.setAttribute(name, val), wrapper) : el.getAttribute(name),
     addClass: (...cls) => (el.classList.add(...cls), wrapper),
     removeClass: (...cls) => (el.classList.remove(...cls), wrapper),

@@ -30,7 +30,7 @@ describe("Enum", () => {
     expect(Enum.uniq()([1, 1, 2, 3, 3])).toEqual([1, 2, 3]);
   });
 
-  it("sort ne mute pas l'original", () => {
+  it("sort doesn't mutate the original", () => {
     const list = [3, 1, 2];
     const sorted = Enum.sort((a, b) => a - b)(list);
     expect(sorted).toEqual([1, 2, 3]);

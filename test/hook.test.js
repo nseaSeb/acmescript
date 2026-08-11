@@ -12,7 +12,7 @@ function makeLifecycleHost() {
 }
 
 describe("createHook", () => {
-  it("injecte un ctx avec push/pushTo/handle/upload dans mounted", () => {
+  it("injects a ctx with push/pushTo/handle/upload into mounted", () => {
     let receivedCtx;
     const hook = createHook({
       mounted(ctx) {
@@ -37,7 +37,7 @@ describe("createHook", () => {
     expect(host.upload).toHaveBeenCalledWith("field", ["file"]);
   });
 
-  it("appelle updated/destroyed avec le même ctx que mounted", () => {
+  it("calls updated/destroyed with the same ctx as mounted", () => {
     const contexts = [];
     const hook = createHook({
       mounted(ctx) { contexts.push(ctx); },
@@ -55,7 +55,7 @@ describe("createHook", () => {
     expect(contexts[1]).toBe(contexts[2]);
   });
 
-  it("ne plante pas si mounted/updated/destroyed absents du spec", () => {
+  it("doesn't throw when mounted/updated/destroyed are absent from the spec", () => {
     const hook = createHook({});
     const host = makeLifecycleHost();
     expect(() => hook.mounted.call(host)).not.toThrow();

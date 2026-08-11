@@ -3,18 +3,18 @@ import { transition, show, hide } from "../src/transitions.js";
 
 beforeEach(() => {
   document.body.innerHTML = `<div id="box"></div>`;
-  // jsdom n'implémente pas requestAnimationFrame
+  // jsdom doesn't implement requestAnimationFrame
   global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
   vi.useFakeTimers();
 });
 
 afterEach(() => {
-  // évite qu'un setTimeout(duration) laissé pendant fuite sur le test suivant
+  // avoids a leftover pending setTimeout(duration) leaking into the next test
   vi.useRealTimers();
 });
 
 describe("transition", () => {
-  it("ajoute transition+from puis bascule vers to après les frames, retire après duration", () => {
+  it("adds transition+from then switches to `to` after the frames, removes after duration", () => {
     const el = document.getElementById("box");
     transition(el, {
       transition: "t",
@@ -26,8 +26,8 @@ describe("transition", () => {
     expect(el.classList.contains("t")).toBe(true);
     expect(el.classList.contains("f")).toBe(true);
 
-    vi.runOnlyPendingTimers(); // 1ère rAF
-    vi.runOnlyPendingTimers(); // 2ème rAF (nested)
+    vi.runOnlyPendingTimers(); // 1st rAF
+    vi.runOnlyPendingTimers(); // 2nd rAF (nested)
 
     expect(el.classList.contains("f")).toBe(false);
     expect(el.classList.contains("g")).toBe(true);
@@ -38,13 +38,13 @@ describe("transition", () => {
     expect(el.classList.contains("g")).toBe(false);
   });
 
-  it("ne fait rien si la cible n'existe pas", () => {
+  it("does nothing if the target doesn't exist", () => {
     expect(() => transition("#missing", { transition: "t", from: "f", to: "g" })).not.toThrow();
   });
 });
 
 describe("show/hide", () => {
-  it("show va vers opacity-100 scale-100", () => {
+  it("show transitions to opacity-100 scale-100", () => {
     const el = document.getElementById("box");
     show(el);
     vi.runOnlyPendingTimers();
@@ -53,7 +53,7 @@ describe("show/hide", () => {
     expect(el.classList.contains("scale-100")).toBe(true);
   });
 
-  it("hide va vers opacity-0 scale-95", () => {
+  it("hide transitions to opacity-0 scale-95", () => {
     const el = document.getElementById("box");
     hide(el);
     vi.runOnlyPendingTimers();
