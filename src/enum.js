@@ -12,14 +12,17 @@ export const Enum = {
   uniq: () => (list) => [...new Set(list)],
   sort: (sorter) => (list) => [...list].sort(sorter),
   each: (fn) => (list) => (list.forEach(fn), list),
-  any: (predicate) => (list) => list.some(predicate),
-  all: (predicate) => (list) => list.every(predicate),
+  any: (predicate = Boolean) => (list) => list.some(predicate),
+  all: (predicate = Boolean) => (list) => list.every(predicate),
   count: (predicate) => (list) => predicate ? list.filter(predicate).length : list.length,
-  find: (predicate, defaultVal = null) => (list) => list.find(predicate) ?? defaultVal,
+  find: (predicate, defaultVal = null) => (list) => {
+    const index = list.findIndex(predicate);
+    return index === -1 ? defaultVal : list[index];
+  },
   groupBy: (keyFn) => (list) => list.reduce((acc, item) => {
     const key = keyFn(item);
     (acc[key] ??= []).push(item);
     return acc;
-  }, {}),
+  }, Object.create(null)),
   sum: () => (list) => list.reduce((acc, x) => acc + x, 0)
 };

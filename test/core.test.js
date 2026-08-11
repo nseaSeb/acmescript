@@ -74,6 +74,19 @@ describe("cond", () => {
     cond([[true, "first"], [true, spy]]);
     expect(spy).not.toHaveBeenCalled();
   });
+
+  it("calls a function branch instead of returning it (wrap it to get the function itself)", () => {
+    const handler = () => "called";
+    expect(cond([[true, handler]])).toBe("called");
+    expect(cond([[true, () => handler]])).toBe(handler);
+  });
+
+  it("evaluates every test eagerly, unlike Elixir's cond do", () => {
+    let evaluated = 0;
+    const test = () => (evaluated++, true);
+    cond([[test(), "a"], [test(), "b"]]);
+    expect(evaluated).toBe(2);
+  });
 });
 
 describe("unless", () => {

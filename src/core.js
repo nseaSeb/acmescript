@@ -11,7 +11,12 @@ export const match = (result, clauses = {}) => {
   return result;
 };
 
-// cond([[test, resultOrFn], ...]): evaluates tests in order, `cond do`-style
+// cond([[test, resultOrFn], ...]): evaluates tests in order, `cond do`-style.
+// Unlike Elixir's cond, `pairs` is a plain array so every test expression is
+// evaluated eagerly before cond() runs — only the matching branch is lazy
+// (pass a zero-arg function to defer it). Because of that laziness convention,
+// a branch that IS a function gets called, not returned — wrap it in another
+// function (`() => myFn`) if you need the function itself as the result.
 export const cond = (pairs) => {
   for (const [test, branch] of pairs) {
     if (test) return typeof branch === "function" ? branch() : branch;
@@ -19,6 +24,7 @@ export const cond = (pairs) => {
   return undefined;
 };
 
+// same lazy-branch convention as cond: a function branch is called, not returned
 export const unless = (test, branch) =>
   !test ? (typeof branch === "function" ? branch() : branch) : undefined;
 

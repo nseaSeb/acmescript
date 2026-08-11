@@ -49,9 +49,19 @@ describe("Enum", () => {
     expect(Enum.any((x) => x > 5)([1, 2, 3])).toBe(false);
   });
 
+  it("any without a predicate checks truthiness of the elements", () => {
+    expect(Enum.any()([false, 0, "", true])).toBe(true);
+    expect(Enum.any()([false, 0, ""])).toBe(false);
+  });
+
   it("all", () => {
     expect(Enum.all((x) => x > 0)([1, 2, 3])).toBe(true);
     expect(Enum.all((x) => x > 1)([1, 2, 3])).toBe(false);
+  });
+
+  it("all without a predicate checks truthiness of the elements", () => {
+    expect(Enum.all()([1, "a", true])).toBe(true);
+    expect(Enum.all()([1, 0, true])).toBe(false);
   });
 
   it("count without predicate returns the length", () => {
@@ -68,12 +78,23 @@ describe("Enum", () => {
     expect(Enum.find((x) => x > 10)([1, 2, 3])).toBe(null);
   });
 
+  it("find distinguishes a matched null/undefined from no match", () => {
+    expect(Enum.find((x) => x == null, "none")([1, null, 3])).toBe(null);
+    expect(Enum.find((x) => x === undefined, "none")([1, undefined, 3])).toBe(undefined);
+  });
+
   it("groupBy buckets items by key", () => {
     const users = [{ role: "admin", name: "Ada" }, { role: "user", name: "Alan" }, { role: "admin", name: "Grace" }];
     expect(Enum.groupBy((u) => u.role)(users)).toEqual({
       admin: [{ role: "admin", name: "Ada" }, { role: "admin", name: "Grace" }],
       user: [{ role: "user", name: "Alan" }]
     });
+  });
+
+  it("groupBy is safe against keys colliding with Object.prototype members", () => {
+    const result = Enum.groupBy((x) => x)(["constructor", "toString", "constructor"]);
+    expect(result.constructor).toEqual(["constructor", "constructor"]);
+    expect(result.toString).toEqual(["toString"]);
   });
 
   it("sum", () => {

@@ -66,6 +66,11 @@ cond([
 ]);
 ```
 
+> Two differences from Elixir's `cond do`: `pairs` is a plain array, so every test
+> expression is evaluated eagerly before `cond()` runs (only the matching branch is
+> lazy). And because a function branch is called rather than returned, wrap it
+> (`() => myFn`) if you actually need the function itself as the result.
+
 ### `unless(test, branch)`
 Runs `branch` when `test` is falsy, the inverse of `if`.
 
