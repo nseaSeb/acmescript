@@ -1,5 +1,5 @@
 {
-  "name": "acmescript",
+  "name": "acme-script",
   "version": "0.1.0",
   "description": "Helpers JS façon Elixir pour hooks LiveView et templates .heex",
   "license": "MIT",
@@ -7,6 +7,26 @@
   "main": "acmescript.js",
   "exports": {
     ".": "./acmescript.js"
+  },
+  "files": [
+    "acmescript.js",
+    "src"
+  ],
+  "keywords": [
+    "elixir",
+    "phoenix",
+    "liveview",
+    "heex",
+    "hooks"
+  ],
+  "author": "nseaSeb",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nseaSeb/acmescript.git"
+  },
+  "homepage": "https://github.com/nseaSeb/acmescript#readme",
+  "bugs": {
+    "url": "https://github.com/nseaSeb/acmescript/issues"
   },
   "scripts": {
     "test": "vitest run",

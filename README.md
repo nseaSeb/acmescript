@@ -7,6 +7,10 @@ maps imbriquées) pour simplifier l'écriture des hooks LiveView et des template
 Pas de build step requis : modules ES natifs, importables directement dans le navigateur
 ou via votre bundler (esbuild/vite) d'assets Phoenix.
 
+```
+pnpm add acme-script
+```
+
 ```js
 import { pipe, ok, error, match, H, J, find, show, hide,
          createHook, createLiveComponent, Enum, getIn, putIn, updateIn,
