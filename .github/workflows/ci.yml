@@ -24,3 +24,39 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm build
+
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "27"
+          elixir-version: "1.18"
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: mix deps.get
+        working-directory: demo
+
+      - run: mix compile --warnings-as-errors
+        working-directory: demo
+
+      - run: mix assets.setup
+        working-directory: demo
+
+      - run: mix assets.build
+        working-directory: demo
+
+      - run: mix test
+        working-directory: demo

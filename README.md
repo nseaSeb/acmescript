@@ -24,7 +24,7 @@ import { pipe, ok, error, match, cond, unless, inspect, H, J, find, show, hide,
 ```
 acmescript.js   public entry point (re-exports src/index.js)
 src/
-  core.js            pipe, ok, error, match
+  core.js            pipe, ok, error, match, cond, unless, inspect
   sigils.js          H (HTML template), J (safe JSON)
   dom.js             find (fluent DOM selection)
   transitions.js     transition, show, hide
@@ -34,6 +34,8 @@ src/
   access.js          getIn, putIn, updateIn (immutable access)
   pubsub.js          PubSub (client-side, independent of the server)
   with.js            withDo (Elixir `with`-style chaining)
+hooks/          classic LiveView hooks built on top of the lib, see below
+demo/           a Phoenix app demoing every hook, see below
 ```
 
 ## API
@@ -202,6 +204,41 @@ withDo(
 
 See [`examples/`](./examples) for complete use cases (LiveView hook, live component,
 functional composition).
+
+## Classic hooks
+
+[`hooks/`](./hooks) is a small cookbook of common LiveView hooks built with
+`createHook` and the rest of the lib: `CopyToClipboard`, `AutoResize`,
+`ClickOutside`, `InfiniteScroll`, `Reorderable`, `LocalStorageSync`, `Hotkey`,
+`ScrollRestore`, `ContextMenu`, `TagsInput`. They ship as a package subpath so
+you don't need to copy-paste them:
+
+```js
+import { CopyToClipboard, ClickOutside } from "@nseaprotector/acme-script/hooks";
+
+const liveSocket = new LiveSocket("/live", Socket, {
+  hooks: { CopyToClipboard, ClickOutside }
+});
+```
+
+Each hook reads its config from `data-*` attributes — see the comment at the
+top of its source file for the expected markup, or the demo below for a
+working example of every one.
+
+## Demo
+
+[`demo/`](./demo) is a minimal Phoenix app with one LiveView page per hook
+(`mix phx.new --no-ecto --no-mailer`), wired to the local lib via a pnpm
+workspace so it always tracks the current source, no publish needed:
+
+```
+pnpm install                # from the repo root, links demo/assets to the lib
+cd demo
+mix setup
+mix phx.server
+```
+
+Then open `localhost:4000` for the index of every hook demo.
 
 ## Tests
 

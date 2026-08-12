@@ -1,16 +1,18 @@
 {
   "name": "@nseaprotector/acme-script",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Elixir-flavored JS helpers for LiveView hooks and .heex templates",
   "license": "MIT",
   "type": "module",
   "main": "acmescript.js",
   "exports": {
-    ".": "./acmescript.js"
+    ".": "./acmescript.js",
+    "./hooks": "./hooks/index.js"
   },
   "files": [
     "acmescript.js",
-    "src"
+    "src",
+    "hooks"
   ],
   "keywords": [
     "elixir",

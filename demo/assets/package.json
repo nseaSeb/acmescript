@@ -1,0 +1,7 @@
+{
+  "name": "demo-assets",
+  "private": true,
+  "dependencies": {
+    "@nseaprotector/acme-script": "workspace:*"
+  }
+}

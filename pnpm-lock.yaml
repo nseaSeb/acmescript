@@ -22,6 +22,12 @@ importers:
         specifier: ^3.2.6
         version: 3.2.7(esbuild@0.25.12)(jsdom@25.0.1)
 
+  demo/assets:
+    dependencies:
+      '@nseaprotector/acme-script':
+        specifier: workspace:*
+        version: link:../..
+
 packages:
 
   '@asamuzakjp/css-color@3.2.0':
