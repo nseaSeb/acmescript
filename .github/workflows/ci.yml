@@ -42,7 +42,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "27"
-          elixir-version: "1.18"
+          elixir-version: "1.19"
 
       - run: pnpm install --frozen-lockfile
 
