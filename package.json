@@ -5,15 +5,28 @@
   "license": "MIT",
   "type": "module",
   "main": "acmescript.js",
+  "types": "./acmescript.d.ts",
   "exports": {
-    ".": "./acmescript.js",
-    "./hooks": "./hooks/index.js"
+    ".": {
+      "types": "./acmescript.d.ts",
+      "default": "./acmescript.js"
+    },
+    "./hooks": {
+      "types": "./hooks/index.d.ts",
+      "default": "./hooks/index.js"
+    }
   },
   "files": [
     "acmescript.js",
+    "acmescript.d.ts",
     "src",
     "hooks"
   ],
+  "typesVersions": {
+    "*": {
+      "hooks": ["hooks/index.d.ts"]
+    }
+  },
   "keywords": [
     "elixir",
     "phoenix",
@@ -33,15 +46,19 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
     "build": "esbuild acmescript.js --bundle --minify --format=esm --outfile=dist/acmescript.min.js"
   },
   "devDependencies": {
-    "vitest": "^3.2.6",
+    "esbuild": "^0.25.0",
     "jsdom": "^25.0.1",
-    "esbuild": "^0.25.0"
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.6"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"],
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ],
     "overrides": {
       "vite": ">=6.4.3",
       "esbuild": ">=0.25.0"

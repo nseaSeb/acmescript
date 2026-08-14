@@ -11,7 +11,8 @@ defmodule DemoWeb.HomeLive do
     {"/hotkey", "Hotkey", "Triggers a server event on a keyboard shortcut."},
     {"/scroll-restore", "ScrollRestore", "Restores a scrollable panel's scroll position."},
     {"/context-menu", "ContextMenu", "A custom right-click menu."},
-    {"/tags-input", "TagsInput", "A tag/pill input built from scratch."}
+    {"/tags-input", "TagsInput", "A tag/pill input built from scratch."},
+    {"/dropzone", "Dropzone", "Drag & drop files onto a LiveView upload."}
   ]
 
   def mount(_params, _session, socket) do
@@ -23,7 +24,7 @@ defmodule DemoWeb.HomeLive do
     <Layouts.app flash={@flash}>
       <.header>AcmeScript classic hooks</.header>
       <p class="mb-6 text-sm opacity-70">
-        Ten common LiveView hooks built with <code>createHook</code> from
+        Eleven common LiveView hooks built with <code>createHook</code> from
         <a href="https://github.com/nseaSeb/acmescript" class="underline">acme-script</a>.
         Each page demos one hook end-to-end, client interaction through to a server event.
       </p>

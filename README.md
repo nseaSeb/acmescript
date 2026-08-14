@@ -7,7 +7,9 @@ idioms (`pipe`, `ok/error`, `match`, `with`, `Enum`, immutable access on nested 
 to simplify writing LiveView hooks and `.heex` templates.
 
 No build step required: native ES modules, importable directly in the browser or
-through your Phoenix asset bundler (esbuild/vite).
+through your Phoenix asset bundler (esbuild/vite). Ships hand-written `.d.ts`
+typings (`acmescript.d.ts`, `hooks/index.d.ts`), so plain JS consumers get
+autocomplete/IDE hints with no extra setup.
 
 ```
 pnpm add @nseaprotector/acme-script
@@ -23,6 +25,7 @@ import { pipe, ok, error, match, cond, unless, inspect, H, J, find, show, hide,
 
 ```
 acmescript.js   public entry point (re-exports src/index.js)
+acmescript.d.ts typings for the entry point (hand-written, checked via `pnpm typecheck`)
 src/
   core.js            pipe, ok, error, match, cond, unless, inspect
   sigils.js          H (HTML template), J (safe JSON)
@@ -210,7 +213,7 @@ functional composition).
 [`hooks/`](./hooks) is a small cookbook of common LiveView hooks built with
 `createHook` and the rest of the lib: `CopyToClipboard`, `AutoResize`,
 `ClickOutside`, `InfiniteScroll`, `Reorderable`, `LocalStorageSync`, `Hotkey`,
-`ScrollRestore`, `ContextMenu`, `TagsInput`. They ship as a package subpath so
+`ScrollRestore`, `ContextMenu`, `TagsInput`, `Dropzone`. They ship as a package subpath so
 you don't need to copy-paste them:
 
 ```js
@@ -247,6 +250,17 @@ pnpm test
 ```
 
 See [`test/`](./test) (vitest + jsdom, one file per module in `src/`).
+
+## Typings
+
+```
+pnpm typecheck
+```
+
+Checks `acmescript.d.ts` and `hooks/index.d.ts` against
+[`typecheck/acmescript.test-d.ts`](./typecheck/acmescript.test-d.ts), a file that
+exercises the full public API — the typings equivalent of the test suite, catching
+declarations that drift from actual usage.
 
 ## Minified build
 

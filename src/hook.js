@@ -12,10 +12,10 @@ export const createHook = (spec) => ({
   },
 
   updated() {
-    if (spec.updated) spec.updated.call(this, this._acmeCtx);
+    if (spec.updated) spec.updated.call(this, this._acmeCtx ?? {});
   },
 
   destroyed() {
-    if (spec.destroyed) spec.destroyed.call(this, this._acmeCtx);
+    if (spec.destroyed) spec.destroyed.call(this, this._acmeCtx ?? {});
   }
 });

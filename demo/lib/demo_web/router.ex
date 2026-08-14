@@ -28,6 +28,7 @@ defmodule DemoWeb.Router do
     live "/scroll-restore", ScrollRestoreLive
     live "/context-menu", ContextMenuLive
     live "/tags-input", TagsInputLive
+    live "/dropzone", DropzoneLive
   end
 
   # Other scopes may use custom stacks.

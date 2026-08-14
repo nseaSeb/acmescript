@@ -22,3 +22,5 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+
+.drag-over { border-color: #3b82f6; background-color: color-mix(in srgb, #3b82f6 8%, transparent); }

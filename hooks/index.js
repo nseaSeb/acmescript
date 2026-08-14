@@ -8,3 +8,4 @@ export { Hotkey } from "./hotkey.js";
 export { ScrollRestore } from "./scroll_restore.js";
 export { ContextMenu } from "./context_menu.js";
 export { TagsInput } from "./tags_input.js";
+export { Dropzone } from "./dropzone.js";
